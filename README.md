@@ -33,7 +33,7 @@ In the generate_irr_filter folder you'll find the modified bash script I'm using
 
 #### Automate it?
 
-Now you just need to wrap this in another script or call it from cron.  I have a wrapper that I'm using, which generates the text files using IRRPT once per day, and then runs the mikrotik_irr_updater against them to keep the routers upto date.  It's manual to setup a new peer etc into the system, but worth it to auto maintain the filters.  Checkout the [generate_irr_filter](generate_irr_filter) directory for a bit more detail.
+Now you just need to wrap this in another script or call it from cron.  I have a wrapper that I'm using, which generates the text files using IRRPT once per day, and then runs the mikrotik_irr_updater against them to keep the routers upto date.  It's manual to setup a new peer etc into the system, but worth it to auto maintain the filters.  Checkout the [automation](automation) directory for a bit more detail.
 
 #### What else?
 
