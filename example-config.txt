@@ -1,0 +1,3 @@
+{'chain': 'as35008-fcix-import-ipv4', 'rule': 'if (dst==194.246.109.0/24) { accept }'}
+{'chain': 'as35008-fcix-import-ipv4', 'rule': 'if (dst==194.15.141.0/24) { accept }'}
+{'chain': 'as35008-fcix-import-ipv4', 'rule': 'reject'}
