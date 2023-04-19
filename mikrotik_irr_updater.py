@@ -44,9 +44,6 @@ password = config.get('API', 'password')
 connection = routeros_api.RouterOsApiPool(ROUTER_IP, username=username, password=password, use_ssl=True, ssl_verify=False, plaintext_login=True)
 api = connection.get_api()
 
-# Get the current configuration from the router
-current_config = api.get_resource('/routing/filter/rule')
-
 # Let's compare the router and the desired configuration
 
 with open(CONFIG_FILE, 'r') as f:
@@ -56,7 +53,8 @@ with open(CONFIG_FILE, 'r') as f:
         data = json.loads(line)
         desired_config.append((data['chain'], data['rule']))
 
-# Get the current config from the router
+# Get the current configuration from the router
+current_config = api.get_resource('/routing/filter/rule')
 current_config_response = current_config.get(chain=CHAIN_NAME)
 current_config_str = str(current_config_response)
 config_list = eval(current_config_str)
