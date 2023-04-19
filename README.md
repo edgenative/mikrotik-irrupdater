@@ -16,7 +16,7 @@ This script will help you take a desired configuration for your IRR filter from 
 ````
 #### How do I run it?
 
-The script needs a few things.  In the ```config.cfg``` you can specify the auth details for your RouterOS API.  We're assuming here you have a common username/password across all of your routers for this purpose.  Further you need to supply a few command line arguments;
+The script needs a few things.  In the ```config.cfg``` you can specify the auth details for your RouterOS API.  We're assuming here you have a common username/password across all of your routers for this purpose - simiarly, assuming you are using SSL on your API (Self Signed is fine) - you can tweak this in the API connection string in the python if needed.  Further you need to supply a few command line arguments;
 ````
 python3 mikrotik_irr_updater.py chain_name config_file router_ip
 ````
