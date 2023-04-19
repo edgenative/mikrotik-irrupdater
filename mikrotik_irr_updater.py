@@ -83,10 +83,10 @@ else:
 # non matching if the router contains duplicates, but the desired configuration doesn't.
 if set(desired_config) == set(current_config):
     if match:
-        print("Config matches - No update required")
+        print(f"{CHAIN_NAME} matches - No update required")
         sys.exit()
 
-print("Config does not match - Updating Router with desired configuration")
+print(f"Config does not match - Updating Router with desired {CHAIN_NAME}")
 
 #
 # Everything below here is distructive to your router configuration.  Here we know the configs don't match
