@@ -44,10 +44,6 @@ password = config.get('API', 'password')
 connection = routeros_api.RouterOsApiPool(ROUTER_IP, username=username, password=password, use_ssl=True, ssl_verify=False, plaintext_login=True)
 api = connection.get_api()
 
-# Load the desired configuration from the file
-with open(CONFIG_FILE) as f:
-    desired_config = f.read().strip()
-
 # Get the current configuration from the router
 current_config = api.get_resource('/routing/filter/rule')
 
