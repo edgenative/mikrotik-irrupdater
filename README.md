@@ -27,9 +27,9 @@ python3 mikrotik_irr_updater.py as35008-fcix-import-ipv4 as35008-fcix-import-ipv
 
 #### What else do I need?
 
-There are many systems to generate the desired configuration of your IRR filters, but perhaps not in the right format.  I'm currently using [IRRPT](https://github.com/6connect/irrpt) to generate my IRR configs - it seems to work pretty well.  However there isn't an Mikrotik output, so I've adapted some bash originally by [Anurag Bhatia](https://anuragbhatia.com/2017/04/networking/isp-column/route-filter-generation-for-mikrotik-routeros-via-irr/) to output in the correct format for the python to then call the RouterOS API.
+Some IRR filters to upload...  There are many systems to generate the desired configuration of your IRR filters, but perhaps not in the right format for your Mikrotik, and I certainly couldn't find a decent way of putting them onto the router.  I'm currently using [IRRPT](https://github.com/6connect/irrpt) to generate my IRR configs - it seems to work really well.  However there isn't an native Mikrotik output, so I've adapted some bash originally by [Anurag Bhatia](https://anuragbhatia.com/2017/04/networking/isp-column/route-filter-generation-for-mikrotik-routeros-via-irr/) to output in the correct format for the python here to then call and manipulate with the RouterOS API.
 
-In the generate_irr_filter folder you'll find the modified bash script I'm using for my network setup: ros.sh.  If you place this into your irrpt directory, it'll generate an output which can be saved to a text file and used for the python code.
+In the [automation](automation) folder you'll find the modified bash script I'm using for my network setup: ros.sh.  If you place this into your irrpt directory, it'll generate text files as an output which can be used with the python script here.
 
 #### Automate it?
 
