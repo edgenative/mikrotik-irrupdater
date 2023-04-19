@@ -1,7 +1,7 @@
 # (c) 2023 Lee Hetherington <lee@edgenative.net>
 # Adapted from the original version by Anurag Bhatia
 #
-# Input name of chain via $2 and ASN via $2
+# Input name of chain via $3 and ASN via $2
 #
 irrpt=/usr/share/irrpt
 # Grab latest filters via RADB / other IRRs using IRRPT
