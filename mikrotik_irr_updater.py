@@ -19,16 +19,12 @@ import argparse
 # the desired config in a text file and the IP/Hostname of the router API endpoint
 #
 parser = argparse.ArgumentParser()
-
-# add arguments to the parser
 parser.add_argument("chain_name", help="name of the import chain")
 parser.add_argument("config_file", help="path to the desired configuration of the chain")
 parser.add_argument("router_ip", help="IP address or hostname of the router")
-
-# parse the arguments
 args = parser.parse_args()
 
-# access the values of the arguments
+# command line arguments
 CHAIN_NAME = args.chain_name
 CONFIG_FILE = args.config_file
 ROUTER_IP = args.router_ip
@@ -45,7 +41,6 @@ connection = routeros_api.RouterOsApiPool(ROUTER_IP, username=username, password
 api = connection.get_api()
 
 # Let's compare the router and the desired configuration
-
 with open(CONFIG_FILE, 'r') as f:
     desired_config = []
     for line in f:
@@ -87,6 +82,7 @@ print(f"Config does not match - Updating Router with desired {CHAIN_NAME}")
 # and so we assume you're good to go. This will cleanup the current config, and replace it with the chains from
 # your config file.
 #
+#
 # Cleanup the router configuration.  Mikrotik has no configuration management
 # so sadly, the easiest way is to remove the existing filter and replace it.
 #
@@ -111,11 +107,10 @@ with open(CONFIG_FILE) as f:
         # Load the JSON data from the line
         data = json.loads(line)
 
-        # Extract the values for the 'chain' and 'rule' keys
-        # These are the only two values we really care about, we could take notice of disabled/enabled in future versions
+        # We only really care about chain and rule, we could take notice of disabled/enabled or any other relevant value in the future
         desired_chain = data['chain']
         desired_rule = data['rule']
 
-        # Print the extracted values
+        # Print some debug output about what's being added here
         current_config_connection.add(rule=desired_rule,chain=CHAIN_NAME,disabled="false")
         print(f"Adding: Chain: {desired_chain}, Rule: {desired_rule}")
