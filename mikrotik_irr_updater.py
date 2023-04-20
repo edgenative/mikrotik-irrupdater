@@ -54,8 +54,8 @@ with open(CONFIG_FILE, 'r') as f:
         desired_config.append((data['chain'], data['rule']))
 
 # Get the current configuration from the router
-current_config = api.get_resource('/routing/filter/rule')
-current_config_response = current_config.get(chain=CHAIN_NAME)
+current_config_connection = api.get_resource('/routing/filter/rule')
+current_config_response = current_config_connection.get(chain=CHAIN_NAME)
 current_config_str = str(current_config_response)
 config_list = eval(current_config_str)
 
@@ -90,18 +90,16 @@ print(f"Config does not match - Updating Router with desired {CHAIN_NAME}")
 # Cleanup the router configuration.  Mikrotik has no configuration management
 # so sadly, the easiest way is to remove the existing filter and replace it.
 #
-list_address =  api.get_resource('/routing/filter/rule')
-my_list = list_address.get(chain=CHAIN_NAME)
+my_list = current_config_connection.get(chain=CHAIN_NAME)
 for dictionary in my_list:
     id_value = dictionary['id']
     # do something with id_value here, like passing it to another command
     print("Cleaning up chain: " + CHAIN_NAME + " rule: " + id_value)
     #command to remove chain values
-    list_address.remove(id=str(id_value))
+    current_config_connection.remove(id=str(id_value))
 #
 # Add new entries based on desired configuration supplied
 #
-current_config = api.get_resource('/routing/filter/rule')
 with open(CONFIG_FILE) as f:
     desired_config = f.read().strip()
     for line in desired_config.splitlines():
@@ -119,5 +117,5 @@ with open(CONFIG_FILE) as f:
         desired_rule = data['rule']
 
         # Print the extracted values
-        current_config.add(rule=desired_rule,chain=CHAIN_NAME,disabled="false")
+        current_config_connection.add(rule=desired_rule,chain=CHAIN_NAME,disabled="false")
         print(f"Adding: Chain: {desired_chain}, Rule: {desired_rule}")
