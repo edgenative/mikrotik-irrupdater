@@ -37,4 +37,4 @@ Now you just need to wrap this in another script or call it from cron.  I have a
 
 #### What else?
 
-The code is very very alpha release - and the first thing I've written in python.  You can help by making it better, but nothing else seemed to exist for Mikrotik, I had a particular need so made this as an initial version.
+The code is very very alpha release - and the first thing I've written in python.  You can help by making it better, but nothing else seemed to exist for Mikrotik, I had a particular need so made this as an initial version after a peer leaked me a partial table for a few mins.
