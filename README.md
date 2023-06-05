@@ -4,6 +4,7 @@ Update IRR Routing Filters on a Mikrotik Router running ROS7+
 #### Prerequisits
 
 [Mikrotik RouterOS API Python Packages](https://pypi.org/project/RouterOS-api/) and a Mikrotik Router(s) running BGP
+A way of generating IRR filters, and transforming that output to the format this script needs.  I recommend using [IRRPT](https://github.com/6connect/irrpt), and have included the bash scripts I use to automate here.
 
 #### What is this for?
 
