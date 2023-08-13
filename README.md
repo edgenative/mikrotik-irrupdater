@@ -3,7 +3,7 @@ Update IRR Routing Filters on a Mikrotik Router running ROS7+
 
 #### Prerequisits
 
-- Mikrotik router(s) running ROS 7+ (We've tested against 7.7, 7.8, 7.9 and 7.10)
+- Mikrotik router(s) running ROS 7+ (We've tested against 7.7 through 7.11)
 - API configured and accessible on your router(s)
 - [Mikrotik RouterOS API Python Packages](https://pypi.org/project/RouterOS-api/) and a Mikrotik Router(s) running BGP
 - A way of generating IRR filters, and transforming that output to the format this script needs.  I recommend using [IRRPT](https://github.com/6connect/irrpt), and have included the bash scripts I use to automate here.
