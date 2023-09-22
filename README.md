@@ -23,7 +23,7 @@ However, we've included everything you need to make this pretty self-contained a
 
 #### How do I configure it?
 
-This updated collection has everything you need in one place.  Our previous release was a bit complex and required IRRPT and some other bits.  We've made it much simpler after feedback, so it's all pretty self contained.  That said, you do need to configure a couple of things here;
+This updated collection has everything you need in one place.  Our previous release was a bit complex and required IRRPT and some other bits.  We've made it much simpler after feedback, so it's all pretty self contained.  That said, you do need to configure a couple of things here.  We're expecting you to install this into ```/usr/share/mikrotik-irrupdater/``` on your host;
 
 ```config/routers.conf``` specify here the username and password required to interact with your routers API
 ```config/peers.conf``` specify here, as comma separated lines the ASN and AS-SET of your peers.  You'll need todo this everytime you add a new peer that you need filters for.
