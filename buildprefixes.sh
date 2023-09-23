@@ -3,7 +3,7 @@
 # (c) 2023 Lee Hetherington <lee@edgenative.net>
 
 
-path=/home/lee/test
+path=/usr/share/mikrotik-irrupdater
 
 # Check if the configuration file 'peers.conf' exists
 if [ ! -f $path/config/peers.conf ]; then
@@ -28,7 +28,7 @@ fi
 # Read the input file line by line
 while IFS=',' read -r param1 param2 param3; do
     if [ -n "$param1" ] && [ -n "$param2" ]; then
-        # Run bgpq4 to fetch the prefixes, with ASN $param1 and AS-SET $param2 as arguments
-        $path/bin/filtergen.sh get "$param1" "$param2"
+        # Run filtergen with ASN $param1 and slug $param2 as arguments
+        $path/bin/filtergen.sh "$param1" "$param2"
     fi
 done < $path/config/sessions.conf
