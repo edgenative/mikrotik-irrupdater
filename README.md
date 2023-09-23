@@ -30,7 +30,7 @@ This updated collection has everything you need in one place.  Our previous rele
 
 - ```config/routers.conf``` specify here the username and password required to interact with your routers API
 - ```config/peers.conf``` specify here, as comma separated lines the ASN and AS-SET of your peers.  You'll need todo this everytime you add a new peer that you need filters for.
-- ```config/sessions.conf``` this file contains the combination of the ASN, the slug (e.g. the IXP name, or the name you want to contain in the filter name e.g. sfmix as the slug would give as32934-sfmix-import-ipv4 for Facebook at SFMIX) and the router hostname/ip it's on.  You'll need to update this everytime you setup a new peer on an IX/PNI/New Router.
+- ```config/sessions.conf``` this file contains the combination of the ASN, the slug (e.g. the IXP name, or the name you want to contain in the filter name) and the router hostname/ip it's on.  You'll need to update this everytime you setup a new peer on an IX/PNI/New Router.
 
 
 #### Automate it?
