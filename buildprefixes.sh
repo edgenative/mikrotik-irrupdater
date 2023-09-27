@@ -29,6 +29,6 @@ fi
 while IFS=',' read -r param1 param2 param3; do
     if [ -n "$param1" ] && [ -n "$param2" ]; then
         # Run filtergen with ASN $param1 and slug $param2 as arguments
-        $path/bin/filtergen.sh "$param1" "$param2"
+        python3 $path/bin/mikrotik-filtergen.py "$param2" "$param1"
     fi
 done < $path/config/sessions.conf
