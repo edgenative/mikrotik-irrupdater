@@ -55,6 +55,8 @@ Using the slug, it then goes on to call another filter which needs to exist on y
 
 The code is still pretty alpha really.  You can help by making it better, but nothing else seemed to exist for Mikrotik, I had a particular need so made this as an initial version after a peer leaked me a partial table for a few mins. If you need a Juniper version of these scripts, I've recently released this here [Edgenative/junos-irrupdater](https://github.com/edgenative/junos-irrupdater)
 
+#### Was this useful?
 
+Let me know, I'd love to hear from you!
 
 
