@@ -15,6 +15,12 @@ import re
 import argparse
 
 #
+# Where is everything installed?
+#
+
+path = "/usr/share/mikrotik-irrupdater"
+
+#
 # We want to take some inputs from the command line, such as the name of the route-filter chain
 # the desired config in a text file and the IP/Hostname of the router API endpoint
 #
@@ -36,7 +42,7 @@ ROUTER_IP = args.router_ip
 # Read from the config file
 # which contains the auth information
 config = configparser.ConfigParser()
-config.read('/usr/share/mikrotik-irrupdater/config/routers.conf')
+config.read(f"{path}/config/routers.conf")
 username = config.get('API', 'username')
 password = config.get('API', 'password')
 
