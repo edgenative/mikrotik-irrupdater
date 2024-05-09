@@ -6,7 +6,7 @@ path=/usr/share/mikrotik-irrupdater
 
 # Check if the configuration file exists
 if [ ! -f $path/config/sessions.conf ]; then
-    echo "Configuration File 'peers.conf' not found."
+    echo "Configuration File 'sessions.conf' not found."
     exit 1
 fi
 
