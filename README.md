@@ -53,7 +53,7 @@ Using the slug, it then goes on to call another filter which needs to exist on y
 
 #### What else?
 
-- This has been presented at a number of Internet fora, including EPF and Teraco Virtual Tech days -- a copy of the slides can be found at https://www.edgenative.net/teraco_virtual_techday_mikrotik_routing_security.pdf
+- This has been presented at a number of Internet fora, including EPF and Teraco Virtual Tech days -- a copy of the slides can be found at https://www.edgenative.net/teraco_virtual_techday_mikrotik_routing_security.pdf and youtube recording https://www.youtube.com/watch?v=OKN_GkD0hNI
 - You can help by making this better, but nothing else seemed to exist for Mikrotik, I had a particular need so made this as an initial version after a peer leaked me a partial table for a few mins. If you need a Juniper version of these scripts, I've recently released this here [Edgenative/junos-irrupdater](https://github.com/edgenative/junos-irrupdater)
 
 #### Was this useful?
