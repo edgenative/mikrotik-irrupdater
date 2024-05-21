@@ -47,7 +47,7 @@ username = config.get('API', 'username')
 password = config.get('API', 'password')
 
 # Build the API connection to the router
-connection = routeros_api.RouterOsApiPool(ROUTER_IP, username=username, password=password, use_ssl=True, ssl_verify=False, plaintext_login=True)
+connection = routeros_api.RouterOsApiPool(ROUTER_IP, username=username, password=password, use_ssl=False, ssl_verify=False, plaintext_login=True)
 api = connection.get_api()
 
 # Let's compare the router and the desired configuration
