@@ -72,57 +72,36 @@ for item in config_list:
     rule = item.get('rule')
     current_config.append((chain, rule))
 
-# Check if there are any duplicates in the current config
-if len(set(current_config)) != len(current_config):
-    print("Error: current config has duplicates")
-    match = False
-else:
-    match = True
-
-# Check if the desired config matches the current config, we're going to ignore duplicates and call it
-# non matching if the router contains duplicates, but the desired configuration doesn't.
+# Check if the desired config matches the current config
 if set(desired_config) == set(current_config):
-    if match:
         print(f"{CHAIN_NAME} matches - No update required")
         sys.exit()
 
 print(f"Config does not match - Updating Router with desired {CHAIN_NAME}")
 
-#
-# Everything below here is distructive to your router configuration.  Here we know the configs don't match
-# and so we assume you're good to go. This will cleanup the current config, and replace it with the chains from
-# your config file.
-#
-# Cleanup the router configuration.  Mikrotik has no configuration management
-# so sadly, the easiest way is to remove the existing filter and replace it.
-#
+# Routes that needs to be added
+to_add = set(desired_config) - set(current_config)
+if to_add:
+    print("Rules to add:")
+    for desired_chain,desired_rule in to_add:
+        print(f"  + {desired_rule}")
+        try:
+            current_config_connection.add(rule=desired_rule,chain=desired_chain,disabled="false")
+        except Exception as e:
+            print(f"Failed to add rule to chain {chain}: {rule}\nError: {e}")
+else:
+    print("No new rules to add.")
+
+# Routes that needs to be removed
 my_list = current_config_connection.get(chain=CHAIN_NAME)
-for dictionary in my_list:
-    id_value = dictionary['id']
-    # do something with id_value here, like passing it to another command
-    print("Cleaning up chain: " + CHAIN_NAME + " rule: " + id_value)
-    #command to remove chain values
-    current_config_connection.remove(id=str(id_value))
-#
-# Add new entries based on desired configuration supplied
-#
-#current_config = api.get_resource('/routing/filter/rule')
-with open(CONFIG_FILE) as f:
-    desired_config = f.read().strip()
-    for line in desired_config.splitlines():
-
-        # Replace single quotes with double quotes
-        # Mikrotik doesn't output actual JSON
-        line = re.sub(r"\'", "\"", line)
-
-        # Load the JSON data from the line
-        data = json.loads(line)
-
-        # Extract the values for the 'chain' and 'rule' keys
-        # These are the only two values we really care about, we could take notice of disabled/enabled in future versions
-        desired_chain = data['chain']
-        desired_rule = data['rule']
-
-        # Print the extracted values
-        current_config_connection.add(rule=desired_rule,chain=CHAIN_NAME,disabled="false")
-        print(f"Adding: Chain: {desired_chain}, Rule: {desired_rule}")
+rule_to_id_map = {entry['rule']: entry['id'] for entry in my_list}
+to_remove = set(current_config) - set(desired_config)
+if to_remove:
+    print("Rules to remove:")
+    for chain, rule in to_remove:
+        rule_id = rule_to_id_map.get(rule)
+        if rule_id:
+            print(f"  - Removing rule from chain {chain}: {rule}")
+            current_config_connection.remove(id=str(rule_id))
+        else:
+            print(f"Could not find ID for rule: {rule} - Skipping")
