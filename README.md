@@ -5,7 +5,7 @@ Update IRR Routing Filters on a Mikrotik Router running ROS7+
 
 #### Prerequisits
 
-- Mikrotik router(s) running ROS 7+ (We've tested against 7.7 through 7.12)
+- Mikrotik router(s) running ROS 7+ (We've tested against 7.7 through 7.16.1)
 - API configured and accessible on your router(s)
 - [Mikrotik RouterOS API Python Packages](https://pypi.org/project/RouterOS-api/) and a Mikrotik Router(s) running BGP
 - BGPQ4 installed on the host where you plan to run these scripts (Debian/Ubuntu apt-get install bgpq4)
