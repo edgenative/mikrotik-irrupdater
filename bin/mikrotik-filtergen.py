@@ -21,9 +21,6 @@ def generate_ipv4_filter(slug, asn):
                     # Prefix is greater than /24 - generating config with prefix length up to /24
                     f.write(f"{{'chain': 'as{asn}-{slug}-import-ipv4', 'rule': 'if (dst in {prefix} && dst-len<=24) {{ jump {slug}-import }}'}}\n")
 
-        # Last entry for denial of pools
-        f.write(f"{{'chain': 'as{asn}-{slug}-import-ipv4', 'rule': 'reject'}}\n")
-
 def generate_ipv6_filter(slug, asn):
     with open(f"{path}/filters/as{asn}-{slug}-import-ipv6.txt", "w") as f:
         with open(f"{path}/db/{asn}.6.agg", "r") as prefixes6:
@@ -36,9 +33,6 @@ def generate_ipv6_filter(slug, asn):
                 elif masklength6 < 48:
                     # Prefix is greater than /48 - generating config with prefix length up to /48
                     f.write(f"{{'chain': 'as{asn}-{slug}-import-ipv6', 'rule': 'if (dst in {prefix6} && dst-len<=48) {{ jump {slug}-import }}'}}\n")
-
-        # Last entry for denial of pools
-        f.write(f"{{'chain': 'as{asn}-{slug}-import-ipv6', 'rule': 'reject'}}\n")
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
