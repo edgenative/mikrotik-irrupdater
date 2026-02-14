@@ -1,4 +1,4 @@
-# Copyright (c) 2023 - Lee Hetherington <lee@edgenative.net>
+# Copyright (c) 2023-2026 - Lee Hetherington <lee@edgenative.net>
 # Script: mikrotik_irr_updater.py
 #
 # Usage: mikrotik-irrupdater.py chain_name config_file router_ip
@@ -11,7 +11,6 @@ import sys
 import configparser
 import routeros_api
 import json
-import re
 import argparse
 
 #
@@ -55,22 +54,23 @@ api = connection.get_api()
 with open(CONFIG_FILE, 'r') as f:
     desired_config = []
     for line in f:
-        line = re.sub(r"\'", "\"", line)
+        line = line.replace("'", '"')
         data = json.loads(line)
         desired_config.append((data['chain'], data['rule']))
 
 # Get the current configuration from the router
 current_config_connection = api.get_resource('/routing/filter/rule')
 current_config_response = current_config_connection.get(chain=CHAIN_NAME)
-current_config_str = str(current_config_response)
-config_list = eval(current_config_str)
 
 # Create a list of tuples of chain and rule from the current config
+# Also build a rule-to-id map for removals later (avoids a second API call)
 current_config = []
-for item in config_list:
+rule_to_id_map = {}
+for item in current_config_response:
     chain = item.get('chain')
     rule = item.get('rule')
     current_config.append((chain, rule))
+    rule_to_id_map[rule] = item.get('id')
 
 # Check if the desired config matches the current config
 if set(desired_config) == set(current_config):
@@ -88,13 +88,11 @@ if to_add:
         try:
             current_config_connection.add(rule=desired_rule,chain=desired_chain,disabled="false")
         except Exception as e:
-            print(f"Failed to add rule to chain {chain}: {rule}\nError: {e}")
+            print(f"Failed to add rule to chain {desired_chain}: {desired_rule}\nError: {e}")
 else:
     print("No new rules to add.")
 
 # Routes that needs to be removed
-my_list = current_config_connection.get(chain=CHAIN_NAME)
-rule_to_id_map = {entry['rule']: entry['id'] for entry in my_list}
 to_remove = set(current_config) - set(desired_config)
 if to_remove:
     print("Rules to remove:")

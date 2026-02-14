@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Script for generating BGP filter for Mikrotik RouterOS
-# (c) 2023 Lee Hetherington <lee@edgenative.net>
+# (c) 2023-2026 Lee Hetherington <lee@edgenative.net>
 #
 import os
 import sys
@@ -8,31 +8,36 @@ import sys
 # Set the path configuration variable here
 path = "/usr/share/mikrotik-irrupdater"
 
-def generate_ipv4_filter(slug, asn):
-    with open(f"{path}/filters/as{asn}-{slug}-import-ipv4.txt", "w") as f:
-        with open(f"{path}/db/{asn}.4.agg", "r") as prefixes:
+def generate_filter(slug, asn, afi):
+    """Generate filter rules for a given address family.
+
+    Args:
+        slug: Exchange/peer slug name
+        asn: AS number
+        afi: Address family - 4 for IPv4, 6 for IPv6
+    """
+    max_prefix_len = 24 if afi == 4 else 48
+    prefix_file = f"{path}/db/{asn}.{afi}.agg"
+    output_file = f"{path}/filters/as{asn}-{slug}-import-ipv{afi}.txt"
+    chain_name = f"as{asn}-{slug}-import-ipv{afi}"
+
+    if not os.path.exists(prefix_file):
+        print(f"Error: Prefix file not found: {prefix_file}", file=sys.stderr)
+        sys.exit(1)
+
+    seen = set()
+    with open(output_file, "w") as f:
+        with open(prefix_file, "r") as prefixes:
             for prefix in prefixes:
                 prefix = prefix.strip()
+                if not prefix or prefix in seen:
+                    continue
+                seen.add(prefix)
                 masklength = int(prefix.split("/")[1])
-                if masklength == 24:
-                    # Prefix is a /24 - generating config without defining prefix length
-                    f.write(f"{{'chain': 'as{asn}-{slug}-import-ipv4', 'rule': 'if (dst=={prefix}) {{ jump {slug}-import }}'}}\n")
-                elif masklength < 24:
-                    # Prefix is greater than /24 - generating config with prefix length up to /24
-                    f.write(f"{{'chain': 'as{asn}-{slug}-import-ipv4', 'rule': 'if (dst in {prefix} && dst-len<=24) {{ jump {slug}-import }}'}}\n")
-
-def generate_ipv6_filter(slug, asn):
-    with open(f"{path}/filters/as{asn}-{slug}-import-ipv6.txt", "w") as f:
-        with open(f"{path}/db/{asn}.6.agg", "r") as prefixes6:
-            for prefix6 in prefixes6:
-                prefix6 = prefix6.strip()
-                masklength6 = int(prefix6.split("/")[1])
-                if masklength6 == 48:
-                    # Prefix is a /48 - generating config without defining prefix length
-                    f.write(f"{{'chain': 'as{asn}-{slug}-import-ipv6', 'rule': 'if (dst=={prefix6}) {{ jump {slug}-import }}'}}\n")
-                elif masklength6 < 48:
-                    # Prefix is greater than /48 - generating config with prefix length up to /48
-                    f.write(f"{{'chain': 'as{asn}-{slug}-import-ipv6', 'rule': 'if (dst in {prefix6} && dst-len<=48) {{ jump {slug}-import }}'}}\n")
+                if masklength == max_prefix_len:
+                    f.write(f"{{'chain': '{chain_name}', 'rule': 'if (dst=={prefix}) {{ jump {slug}-import }}'}}\n")
+                elif masklength < max_prefix_len:
+                    f.write(f"{{'chain': '{chain_name}', 'rule': 'if (dst in {prefix} && dst-len<={max_prefix_len}) {{ jump {slug}-import }}'}}\n")
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
@@ -42,5 +47,5 @@ if __name__ == "__main__":
     slug = sys.argv[1]
     asn = sys.argv[2]
 
-    generate_ipv4_filter(slug, asn)
-    generate_ipv6_filter(slug, asn)
+    generate_filter(slug, asn, 4)
+    generate_filter(slug, asn, 6)

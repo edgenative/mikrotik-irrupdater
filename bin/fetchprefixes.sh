@@ -1,6 +1,6 @@
 #!/bin/bash
 # Script for generating BGP filter for Mikrotik RouterOS
-# (c) 2023 Lee Hetherington <lee@edgenative.net>
+# (c) 2023-2026 Lee Hetherington <lee@edgenative.net>
 
 path=/usr/share/mikrotik-irrupdater
 
