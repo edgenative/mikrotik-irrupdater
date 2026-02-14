@@ -26,9 +26,13 @@ if [ ! -f $path/config/sessions.conf ]; then
 fi
 
 # Read the input file line by line
-while IFS=',' read -r param1 param2 param3; do
+while IFS=',' read -r param1 param2 param3 param4 param5; do
     if [ -n "$param1" ] && [ -n "$param2" ]; then
-        # Run filtergen with ASN $param1 and slug $param2 as arguments
-        python3 $path/bin/mikrotik-filtergen.py "$param2" "$param1"
+        # Run filtergen with ASN $param1, slug $param2, and optional peer name $param5
+        if [ -n "$param5" ]; then
+            python3 $path/bin/mikrotik-filtergen.py "$param2" "$param1" "$param5"
+        else
+            python3 $path/bin/mikrotik-filtergen.py "$param2" "$param1"
+        fi
     fi
 done < $path/config/sessions.conf
