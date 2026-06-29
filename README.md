@@ -71,6 +71,6 @@ If you’re using this tool in production, you might be interested in ispforge �
 - Multi-router / multi-site support
 - Peering workflow automation
 
-We’re currently running a closed beta with a small number of ISPs [Closed Beta Signup](https://www.ispforge.com)
+We’re currently running a closed beta with a small number of ISPs [Closed Beta Signup](https://www.ispforge.com/?utm_source=github)
 
 
