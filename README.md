@@ -67,6 +67,8 @@ A full disk once left every `db/*.agg` file at 0 bytes on the Junos sibling of t
 
 If a large shrink is genuinely expected, run the push with `IRRUPDATER_FORCE=1` in the environment to bypass the comparison for that run. The other checks cannot be bypassed.
 
+`python3 tests/run.py` exercises all of these against a fake RouterOS API. It needs nothing installed and no router.
+
 #### What else?
 
 - This has been presented at a number of Internet fora, including EPF and Teraco Virtual Tech days -- a copy of the slides can be found at https://www.edgenative.net/teraco_virtual_techday_mikrotik_routing_security.pdf and youtube recording https://www.youtube.com/watch?v=OKN_GkD0hNI
