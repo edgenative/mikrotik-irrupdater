@@ -36,3 +36,5 @@ Prefix database files in `db/` are always keyed by ASN regardless of peer name.
 - Filter rules use single-quoted Python dict syntax (not JSON) for historical reasons - the irrupdater script converts quotes before parsing with `json.loads()`
 - All scripts expect to be installed at `/usr/share/mikrotik-irrupdater/`
 - Backwards compatibility matters - config changes must not break existing setups without the new optional fields
+- `mikrotik-irrupdater.py` never pushes an empty/malformed filter, refuses when the file lost all (or >80%) of its prefix rules vs `filters/last-pushed/`, inserts new rules before a terminal rule, does not remove old rules if an add failed, and reads the chain back after pushing. Keep these checks when changing the push path.
+- `fetchprefixes.sh` and `mikrotik-filtergen.py` write to a temp file and rename; a failed or empty fetch/generation leaves the previous file in place and exits non-zero.
