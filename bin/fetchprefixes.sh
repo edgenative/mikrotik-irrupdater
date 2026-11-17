@@ -30,7 +30,13 @@ for afi in 4 6; do
         exit 2
     fi
 
-    if ! bgpq4 -F '%n/%l \n' "-$afi" -A "$asset" > "$tmp"; then
+    # A route-set member with a range operator (e.g. 192.0.2.0/22^22-24) is valid
+    # RPSL. bgpq4 silently skips plain prefixes of the other address family, but
+    # logs "ERROR:Ignoring prefix ..., wrong af N" for ranged ones, so every IPv4
+    # range shows up as an error in the IPv6 run (and vice versa). The prefix is
+    # still picked up by the run for its own family, where filtergen applies its
+    # own upto /24 (/48), so the range itself is not needed. Drop just that line.
+    if ! bgpq4 -F '%n/%l \n' "-$afi" -A "$asset" > "$tmp" 2> >(grep -v 'Ignoring prefix .*, wrong af' >&2); then
         echo "ERROR: bgpq4 failed for as$asn $asset (IPv$afi) - keeping previous $target"
         rm -f "$tmp"
         rc=1
